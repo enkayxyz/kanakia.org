@@ -69,7 +69,6 @@ nav a[aria-current="page"] { color: var(--blue); }
   width: 100%;
   height: auto;
   display: block;
-  mix-blend-mode: multiply;
   transform: scale(1.12);
   filter: blur(16px);
   opacity: 0;

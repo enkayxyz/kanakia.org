@@ -128,10 +128,17 @@ nav a[aria-current="page"] { color: var(--blue); }
 .about p:last-child { margin-bottom: 0; }
 
 .site-foot {
-  padding: 48px var(--pad) 40px;
+  padding: 32px var(--pad) 40px;
   text-align: center;
   color: var(--mute);
   font-size: 14px;
+}
+.murti {
+  display: block;
+  width: auto;
+  height: 96px;
+  margin: 0 auto 18px;
+  opacity: 0.92;
 }
 .site-foot a { color: var(--blue); }
 .tag {

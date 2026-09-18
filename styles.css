@@ -1,5 +1,6 @@
 /* Hallmark · macrostructure: Quote-Led · tone: austere memorial
- * paper: white · ink: black · accents: blue + green */
+ * paper: white · ink: black · accents: blue + green
+ * motion: MotionSites-style blur-in stagger + image scale (vanilla) */
 :root {
   --bg: #ffffff;
   --ink: #111111;
@@ -11,14 +12,9 @@
   --measure: 38rem;
   --pad: 24px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur: 1.1s;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-}
+html { scroll-behavior: smooth; overflow-x: clip; }
 html, body { background: var(--bg); color: var(--ink); }
 body {
   font-family: var(--font-body);
@@ -36,6 +32,7 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   justify-content: space-between;
   gap: 16px;
   padding: 20px clamp(var(--pad), 5vw, 64px) 8px;
+  animation: blurIn 0.9s var(--ease) both;
 }
 .mark {
   font-family: var(--font-display);
@@ -60,39 +57,68 @@ nav a[aria-current="page"] { color: var(--blue); }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 12px var(--pad) 48px;
+  padding: 8px var(--pad) 56px;
   text-align: center;
 }
-.hero img {
-  width: min(72vw, 640px);
+.hero-art {
+  width: min(78vw, 680px);
+  overflow: hidden;
+  line-height: 0;
+}
+.hero-art img {
+  width: 100%;
   height: auto;
   display: block;
+  mix-blend-mode: multiply;
+  transform: scale(1.12);
+  filter: blur(16px);
   opacity: 0;
-  transform: scale(0.985) translateY(10px);
-  animation: rise var(--dur) var(--ease) 0.15s forwards;
+  animation:
+    artReveal 1.4s var(--ease) 0.12s forwards,
+    artBreathe 18s var(--ease) 1.6s infinite alternate;
 }
-.mission {
-  margin-top: 28px;
-  max-width: 28rem;
+.hero-copy { max-width: 40rem; margin-top: 8px; }
+.verse {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
   font-style: normal;
   font-weight: 400;
-  line-height: 1.35;
-  color: var(--green);
-  opacity: 0;
-  animation: rise 0.9s var(--ease) 0.55s forwards;
+  line-height: 1.55;
+  color: var(--ink);
+  animation: blurIn 1s var(--ease) 0.45s both;
 }
-@keyframes rise {
-  to { opacity: 1; transform: none; }
+.gloss {
+  margin-top: 12px;
+  color: var(--blue);
+  font-size: 15px;
+  animation: blurIn 1s var(--ease) 0.65s both;
+}
+.mission {
+  margin-top: 18px;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--green);
+  animation: blurIn 1s var(--ease) 0.85s both;
 }
 
-.about, .people {
+@keyframes blurIn {
+  from { opacity: 0; filter: blur(12px); transform: translateY(18px); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+@keyframes artReveal {
+  to { opacity: 1; filter: blur(0); transform: scale(1.04); }
+}
+@keyframes artBreathe {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.08); }
+}
+
+.about {
   max-width: var(--measure);
   margin: 0 auto;
   padding: 72px var(--pad);
 }
-.about h2, .people h2 {
+.about h2 {
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 400;
@@ -101,18 +127,6 @@ nav a[aria-current="page"] { color: var(--blue); }
 }
 .about p { margin-bottom: 1.1em; color: var(--ink); }
 .about p:last-child { margin-bottom: 0; }
-
-.people ul {
-  list-style: none;
-  display: grid;
-  gap: 8px 32px;
-}
-.people li {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  color: var(--ink);
-}
-.people li.soon { color: var(--mute); }
 
 .site-foot {
   padding: 48px var(--pad) 40px;
@@ -130,6 +144,15 @@ nav a[aria-current="page"] { color: var(--blue); }
 }
 
 @media (max-width: 640px) {
-  .hero img { width: min(92vw, 640px); }
-  .about, .people { padding: 48px var(--pad); }
+  .hero-art { width: min(94vw, 680px); }
+  .about { padding: 48px var(--pad); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .site-head, .verse, .gloss, .mission, .hero-art img {
+    animation: none;
+    filter: none;
+    opacity: 1;
+    transform: none;
+  }
 }

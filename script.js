@@ -12,7 +12,7 @@
 
   function fromHash() {
     const id = (location.hash || "#home").slice(1);
-    setCurrent(id === "people" ? "about" : id);
+    setCurrent(id);
   }
 
   window.addEventListener("hashchange", fromHash);
@@ -21,11 +21,9 @@
   if ("IntersectionObserver" in window && sections.length) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) setCurrent(e.target.id === "home" ? "home" : "about");
+        if (e.isIntersecting) setCurrent(e.target.id);
       });
     }, { rootMargin: "-40% 0px -50% 0px", threshold: 0.01 });
     sections.forEach(s => io.observe(s));
-    const people = document.getElementById("people");
-    if (people) io.observe(people);
   }
 })();
